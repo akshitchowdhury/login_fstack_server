@@ -12,7 +12,7 @@ const cloudinary = require('cloudinary').v2;
 const app = express()
 var cors = require('cors')
 app.use(cors())
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3030
 app.use(express.json());
 connectDB()
 
