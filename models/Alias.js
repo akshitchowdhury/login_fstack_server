@@ -20,6 +20,11 @@ const aliasSchema = new mongoose.Schema({
     imageUrl: { // New field for storing the image URL
         type: String,
         required: false // Not required, in case some users don't have an image
+    },
+    isFavorite: {
+        type: Boolean,
+        default: false,
+        required: false
     }
 });
 
