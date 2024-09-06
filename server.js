@@ -81,3 +81,42 @@ app.delete("/delete/:id", async(req,res)=>{
     }
 })
 
+app.put("/update/:id", upload.single('image'), async (req, res) => {
+    try {
+      const aliasId = req.params.id;
+  
+      // Find the existing document by ID
+      const alias = await Alias.findById(aliasId);
+  
+      if (!alias) {
+        return res.status(404).json({ message: 'Alias not found' });
+      }
+  
+      // Update fields if they are present in the request body
+      alias.username = req.body.username || alias.username;
+      alias.firstName = req.body.firstName || alias.firstName;
+      alias.lastName = req.body.lastName || alias.lastName;
+      alias.password = req.body.password || alias.password;
+  
+      // Handle the image update if a new file is uploaded
+      if (req.file) {
+        // Delete the old image from Cloudinary (optional but recommended)
+        if (alias.imageUrl) {
+          const publicId = alias.imageUrl.split('/').pop().split('.')[0]; // Extract public_id from URL
+          await cloudinary.uploader.destroy(publicId);
+        }
+        
+        // Save the new image URL
+        alias.imageUrl = req.file.path;
+      }
+  
+      // Save the updated alias
+      const updatedAlias = await alias.save();
+      res.json(updatedAlias);
+  
+    } catch (error) {
+      res.status(400).json('Error: ' + error);
+    }
+  });
+  
+
