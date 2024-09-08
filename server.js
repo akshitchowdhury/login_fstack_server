@@ -18,7 +18,9 @@ key_id: 'rzp_test_06rtsoPDppcS1n',
 
 const app = express()
 var cors = require('cors')
-app.use(cors())
+// app.use(cors())
+
+app.use(cors({ origin: '*' })); 
 
 // app.use(cors({
 //   origin: 'https://login-fstack-client.vercel.app/', // Specify your frontend domain here
