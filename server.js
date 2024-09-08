@@ -25,6 +25,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
   credentials: true, // If you need to send cookies
 }));
+
 const port = process.env.PORT || 3030
 app.use(express.json());
 connectDB()
