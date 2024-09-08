@@ -18,16 +18,7 @@ key_id: 'rzp_test_06rtsoPDppcS1n',
 
 const app = express()
 var cors = require('cors')
-const allowedOrigins = ['http://localhost:3000', 'https://login-fstack-client.vercel.app/'];
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-}));
+app.use(cors())
 const port = process.env.PORT || 3030
 app.use(express.json());
 connectDB()
