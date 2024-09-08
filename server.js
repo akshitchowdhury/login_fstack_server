@@ -20,16 +20,17 @@ const app = express()
 var cors = require('cors')
 // app.use(cors())
 
-// app.use(cors({
-//   origin: 'https://login-fstack-client.vercel.app/', // Specify your frontend domain here
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-//   credentials: true, // If you need to send cookies
-// }));
+app.use(cors({
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  credentials: true, // Allow credentials
+}));
 
 
-let corsOptions = {
-  origin: [ 'https://login-fstack-client.vercel.app/', 'http://localhost:3000' ]
-};
+
+// let corsOptions = {
+//   origin: [ 'https://login-fstack-client.vercel.app/', 'http://localhost:3000' ]
+// };
 
 const port = process.env.PORT || 3030
 app.use(express.json());
@@ -62,7 +63,7 @@ app.listen(port, ()=>
 })
 
 
-app.get("/",cors(corsOptions), async(req,res)=>{
+app.get("/", async(req,res)=>{
 
     try {
         const alias = await Alias.find()
@@ -73,7 +74,7 @@ app.get("/",cors(corsOptions), async(req,res)=>{
     }
 })
 
-app.post("/login",cors(corsOptions), upload.single('image'), async(req,res)=>{
+app.post("/login",upload.single('image'), async(req,res)=>{
     try {
     const newAlias = new Alias({
         username: req.body.username,
@@ -145,7 +146,7 @@ app.put("/update/:id", upload.single('image'), async (req, res) => {
   });
 
   //Razorpay_route
-  app.post('/order',cors(corsOptions), async (req, res) => {
+  app.post('/order', async (req, res) => {
     // initializing razorpay
     const razorpay = new Razorpay({
         key_id: req.body.keyId,
@@ -175,7 +176,7 @@ app.put("/update/:id", upload.single('image'), async (req, res) => {
 
 const secret_key = 'DevAshura666'
 
-app.post('/paymentCapture',cors(corsOptions), (req, res) => {
+app.post('/paymentCapture', (req, res) => {
 
    // do a validation
 
