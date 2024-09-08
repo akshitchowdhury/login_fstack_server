@@ -12,9 +12,11 @@
       "dest": "/server.js"
     }
   ],
+  
   "headers": [
     {
       "source": "/api/(.*)",
+      "trailingSlash": true,
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
         { "key": "Access-Control-Allow-Origin", "value": "*" },
