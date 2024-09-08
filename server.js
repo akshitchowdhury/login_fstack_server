@@ -62,7 +62,9 @@ app.post("/login",upload.single('image'), async(req,res)=>{
         lastName: req.body.lastName,
         password: req.body.password,
         imageUrl: req.file ? req.file.path : null ,
-        isFavorite: req.body.isFavorite
+        isFavorite: req.body.isFavorite,
+        currency: req.body.currency,
+        amount: req.body.amount
     })      
     const alias = await newAlias.save();
     res.json(alias)
@@ -99,6 +101,8 @@ app.put("/update/:id", upload.single('image'), async (req, res) => {
       alias.lastName = req.body.lastName || alias.lastName;
       alias.password = req.body.password || alias.password;
       alias.isFavorite = req.body.isFavorite || alias.isFavorite;
+      alias.currency = req.body.currency || alias.currency;
+      alias.amount = req.body.amount || alias.amount;
   
       // Handle the image update if a new file is uploaded
       if (req.file) {

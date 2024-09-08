@@ -25,6 +25,15 @@ const aliasSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
         required: false
+    },
+   currency: {
+         
+            type: String,
+            required : true
+    },
+    amount: {
+        type: Number,
+        required : true
     }
 });
 
