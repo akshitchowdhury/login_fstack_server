@@ -23,7 +23,7 @@ var cors = require('cors')
 app.use(cors({
   origin: '*', // Allow all origins
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  credentials: true, // Allow credentials
+  credentials: true, // Allow credentis
 }));
 
 
