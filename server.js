@@ -21,11 +21,10 @@ var cors = require('cors')
 // app.use(cors())
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://login-fstack-client.vercel.app/'], // Allow all origins
+  origin: '*', // Allow all origins
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  credentials: true, // Allow credentis
+  credentials: true, // Allow credentials
 }));
-
 
 
 // let corsOptions = {
