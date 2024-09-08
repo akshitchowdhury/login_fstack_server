@@ -62,7 +62,7 @@ app.listen(port, ()=>
 })
 
 
-app.get("/", async(req,res)=>{
+app.get("/",cors(corsOptions), async(req,res)=>{
 
     try {
         const alias = await Alias.find()
@@ -73,7 +73,7 @@ app.get("/", async(req,res)=>{
     }
 })
 
-app.post("/login",upload.single('image'), async(req,res)=>{
+app.post("/login",cors(corsOptions), upload.single('image'), async(req,res)=>{
     try {
     const newAlias = new Alias({
         username: req.body.username,
@@ -145,7 +145,7 @@ app.put("/update/:id", upload.single('image'), async (req, res) => {
   });
 
   //Razorpay_route
-  app.post('/order', async (req, res) => {
+  app.post('/order',cors(corsOptions), async (req, res) => {
     // initializing razorpay
     const razorpay = new Razorpay({
         key_id: req.body.keyId,
@@ -175,7 +175,7 @@ app.put("/update/:id", upload.single('image'), async (req, res) => {
 
 const secret_key = 'DevAshura666'
 
-app.post('/paymentCapture', (req, res) => {
+app.post('/paymentCapture',cors(corsOptions), (req, res) => {
 
    // do a validation
 
