@@ -18,13 +18,18 @@ key_id: 'rzp_test_06rtsoPDppcS1n',
 
 const app = express()
 var cors = require('cors')
-app.use(cors())
+// app.use(cors())
 
 // app.use(cors({
 //   origin: 'https://login-fstack-client.vercel.app/', // Specify your frontend domain here
 //   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
 //   credentials: true, // If you need to send cookies
 // }));
+
+
+let corsOptions = {
+  origin: [ 'https://login-fstack-client.vercel.app/', 'http://localhost:3000' ]
+};
 
 const port = process.env.PORT || 3030
 app.use(express.json());
