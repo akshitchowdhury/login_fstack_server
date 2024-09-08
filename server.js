@@ -8,6 +8,8 @@ const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
 const Razorpay = require('razorpay')
+
+const crypto = require('crypto')
 const razorpay = new Razorpay({
 key_id: 'rzp_test_06rtsoPDppcS1n',
    key_secret: 'Ru0L1LXfQg0CWmKwhXfGkk5K'
@@ -157,4 +159,36 @@ app.put("/update/:id", upload.single('image'), async (req, res) => {
     }
 });
   
+//payment_capture
 
+const secret_key = 'DevAshura666'
+
+app.post('/paymentCapture', (req, res) => {
+
+   // do a validation
+
+const data = crypto.createHmac('sha256', secret_key)
+
+   data.update(JSON.stringify(req.body))
+
+   const digest = data.digest('hex')
+
+if (digest === req.headers['x-razorpay-signature']) {
+
+       console.log('request is legit')
+
+       //We can send the response and store information in a database.
+
+       res.json({
+
+           status: 'ok'
+
+       })
+
+} else {
+
+       res.status(400).send('Invalid signature');
+
+   }
+
+})
