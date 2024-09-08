@@ -189,31 +189,30 @@ app.put("/update/:id", upload.single('image'), async (req, res) => {
 const secret_key = 'DevAshura666'
 
 app.post('/paymentCapture', (req, res) => {
+  try {
+      // Extract Razorpay signature from headers
+      const receivedSignature = req.headers['x-razorpay-signature'];
+      const payload = JSON.stringify(req.body);  // Ensure the request body is in the same format
 
-   // do a validation
+      // Create HMAC SHA256 digest using secret key
+      const expectedSignature = crypto.createHmac('sha256', secret_key)
+                                      .update(payload)
+                                      .digest('hex');
 
-const data = crypto.createHmac('sha256', secret_key)
+      // Validate the signature
+      if (expectedSignature === receivedSignature) {
+          console.log('Request is legit:', req.body.event);  // Log the event type
 
-   data.update(JSON.stringify(req.body))
+          // Here you can process the webhook data (e.g., update payment status in database)
+          // You may want to handle different event types like 'payment.captured', 'payment.failed', etc.
 
-   const digest = data.digest('hex')
-
-if (digest === req.headers['x-razorpay-signature']) {
-
-       console.log('request is legit')
-
-       //We can send the response and store information in a database.
-
-       res.json({
-
-           status: 'ok'
-
-       })
-
-} else {
-
-       res.status(400).send('Invalid signature');
-
-   }
-
-})
+          res.status(200).json({ status: 'ok' });  // Send success response to Razorpay
+      } else {
+          console.log('Invalid signature');
+          res.status(400).send('Invalid signature');
+      }
+  } catch (error) {
+      console.error('Error processing webhook:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
