@@ -7,6 +7,11 @@ const Alias = require('./models/Alias')
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
+const Razorpay = require('razorpay')
+const razorpay = new Razorpay({
+key_id: 'rzp_test_06rtsoPDppcS1n',
+   key_secret: 'Ru0L1LXfQg0CWmKwhXfGkk5K'
+})
 // cloudinary and multer part
 
 const app = express()
@@ -124,5 +129,32 @@ app.put("/update/:id", upload.single('image'), async (req, res) => {
       res.status(400).json('Error: ' + error);
     }
   });
+
+  //Razorpay_route
+  app.post('/order', async (req, res) => {
+    // initializing razorpay
+    const razorpay = new Razorpay({
+        key_id: req.body.keyId,
+        key_secret: req.body.keySecret,
+    });
+
+    // setting up options for razorpay order.
+    const options = {
+        amount: req.body.amount,
+        currency: req.body.currency,
+        receipt: "any unique id for every order",
+        payment_capture: 1
+    };
+    try {
+        const response = await razorpay.orders.create(options)
+        res.json({
+            order_id: response.id,
+            currency: response.currency,
+            amount: response.amount,
+        })
+    } catch (err) {
+       res.status(400).send('Not able to create order. Please try again!');
+    }
+});
   
 
