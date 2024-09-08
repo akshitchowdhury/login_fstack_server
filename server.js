@@ -73,6 +73,19 @@ app.get("/", async(req,res)=>{
     }
 })
 
+app.get("/:id", async (req, res) => {
+  try {
+      const aliasId = req.params.id;
+      const alias = await Alias.findById(aliasId);
+      if (!alias) {
+          return res.status(404).json({ message: 'Alias not found' });
+      }
+      res.json(alias);
+  } catch (error) {
+      res.status(400).json('Error: ' + error);
+  }
+});
+
 app.post("/login",upload.single('image'), async(req,res)=>{
     try {
     const newAlias = new Alias({
