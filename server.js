@@ -170,14 +170,14 @@ app.put("/update/:id", upload.single('image'), async (req, res) => {
     // setting up options for razorpay order.
     const options = {
         amount: req.body.amount,
-        currency: req.body.currency,
+        currency: req.body.currency,  
         receipt: "any unique id for every order",
         payment_capture: 1
     };
     try {
         const response = await razorpay.orders.create(options)
         res.json({
-            order_id: response.id,
+            order_id: response.order_id,
             currency: response.currency,
             amount: response.amount,
         })
