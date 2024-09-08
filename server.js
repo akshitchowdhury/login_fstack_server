@@ -218,3 +218,18 @@ app.post('/paymentCapture', (req, res) => {
       res.status(500).send('Internal Server Error');
   }
 });
+
+app.post('/verify', (req, res) => {
+  const secret = 'your_secret_key';
+  const body = JSON.stringify(req.body);
+  const expectedSignature = crypto.createHmac('sha256', secret)
+      .update(body)
+      .digest('hex');
+
+  const receivedSignature = req.headers['x-razorpay-signature'];
+  if (expectedSignature === receivedSignature) {
+      res.json({ success: true });
+  } else {
+      res.status(400).json({ success: false, message: 'Invalid signature' });
+  }
+});

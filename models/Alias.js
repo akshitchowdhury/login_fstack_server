@@ -34,6 +34,10 @@ const aliasSchema = new mongoose.Schema({
     amount: {
         type: Number,
         required : true
+    },
+    order_id: { // New field for storing the Razorpay orderId
+        type: String,
+        required: true // Since each transaction/order will have an orderId
     }
 });
 
